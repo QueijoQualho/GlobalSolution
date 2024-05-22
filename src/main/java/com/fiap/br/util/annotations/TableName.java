@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface TableName {
     /**
-     * The name of the database table.
-     * @return The table name
+     * The name of the database collumn.
+     * @return The collumn name
      */
     String value();
 }

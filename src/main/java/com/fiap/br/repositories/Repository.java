@@ -11,158 +11,131 @@ import com.fiap.br.services.QueryExecutor;
 import com.fiap.br.util.annotations.CollumnName;
 import com.fiap.br.util.annotations.Required;
 import com.fiap.br.util.annotations.TableName;
-import com.fiap.br.util.config.Loggable;
+import com.fiap.br.util.interfaces.Loggable;
 
 public class Repository<T> implements Loggable<String> {
 
-    protected final QueryExecutor queryExecutor;
+    private final QueryExecutor queryExecutor;
 
     public Repository(QueryExecutor queryExecutor) {
         this.queryExecutor = queryExecutor;
     }
 
-    /* METODOS CRUD */
+    /* CRUD */
     public T findOne(Class<T> entityClass, int id) {
         String tableName = getTableName(entityClass);
-        Optional<Integer> idOptional = Optional.of(id);
-
-        try {
-            String sql = buildFindOneSQL(entityClass, tableName);
-            List<T> result = queryExecutor.execute(entityClass, sql, null, CRUDOperation.READ, idOptional);
-            if (!result.isEmpty()) {
-                return result.get(0);
-            }
-        } catch (Exception e) {
-            logError("Erro ao pegar " + tableName + ": " + e.getMessage());
-        }
-        return null;
+        String sql = buildFindOneSQL(entityClass, tableName);
+        return executeQuery(entityClass, sql, id, CRUDOperation.READ).stream().findFirst().orElse(null);
     }
 
     public List<T> findAll(Class<T> entityClass) {
         String tableName = getTableName(entityClass);
         String sql = buildFindAllSQL(tableName);
-        try {
-            return queryExecutor.execute(entityClass, sql, null, CRUDOperation.READ, Optional.empty());
-        } catch (Exception e) {
-            logError("Erro ao pegar " + tableName + ": " + e.getMessage());
-        }
-        return null;
+        return executeQuery(entityClass, sql, null, CRUDOperation.READ);
     }
 
     public void save(T entity) {
-        Class<?> entityClass = entity.getClass();
-        String tableName = getTableName(entityClass);
-
-        try {
-            String sql = buildSaveSQL(entityClass, tableName);
-            List<Object> params = buildParamsList(entity);
-            queryExecutor.execute(entityClass, sql, params.toArray(), CRUDOperation.CREATE, Optional.empty());
-        } catch (Exception e) {
-            logError("Erro ao salvar a entidade: " + tableName + " " + e.getMessage());
-        }
+        String tableName = getTableName(entity.getClass());
+        String sql = buildSaveSQL(entity.getClass(), tableName);
+        List<Object> params = buildParamsList(entity);
+        executeUpdate(entity.getClass(), sql, params, CRUDOperation.CREATE);
     }
 
     public void update(T entity, int id) {
-        Class<?> entityClass = entity.getClass();
-        String tableName = getTableName(entityClass);
-        Optional<Integer> idOptional = Optional.of(id);
-
-        try {
-            String sql = buildUpdateSQL(entityClass, tableName);
-            List<Object> params = buildParamsList(entity);
-            queryExecutor.execute(entityClass, sql, params.toArray(), CRUDOperation.UPDATE, idOptional);
-        } catch (Exception e) {
-            logError("Erro ao atualizar a entidade: " + tableName + " " + e.getMessage());
-        }
+        String tableName = getTableName(entity.getClass());
+        String sql = buildUpdateSQL(entity.getClass(), tableName);
+        List<Object> params = buildParamsList(entity);
+        params.add(id);
+        executeUpdate(entity.getClass(), sql, params, CRUDOperation.UPDATE);
     }
 
     public void delete(Class<T> entityClass, int id) {
         String tableName = getTableName(entityClass);
-        Optional<Integer> idOptional = Optional.of(id);
-
-        try {
-            String sql = buildDeleteSQL(entityClass, tableName);
-            queryExecutor.execute(entityClass, sql, null, CRUDOperation.DELETE, idOptional);
-        } catch (Exception e) {
-            logError("Erro ao deletar a entidade: " + tableName + " " + e.getMessage());
-        }
+        String sql = buildDeleteSQL(entityClass, tableName);
+        executeUpdate(entityClass, sql, List.of(id), CRUDOperation.DELETE);
     }
 
-    /* METODOS PRA MONTAR SQL */
-    private String buildFindOneSQL(Class<?> entityClass, String tableName) throws NoSuchFieldException {
-        Field idField = entityClass.getDeclaredField("id");
-        idField.setAccessible(true);
-        CollumnName idName = idField.getAnnotation(CollumnName.class);
-        return "SELECT * FROM " + tableName + " WHERE " + idName.value() + " = ?";
+    /* SQL QUERRYS */
+    private String buildFindOneSQL(Class<?> entityClass, String tableName) {
+        String idColumn = getIdColumn(entityClass);
+        return String.format("SELECT * FROM %s WHERE %s = ?", tableName, idColumn);
     }
 
     private String buildFindAllSQL(String tableName) {
-        return "SELECT * FROM " + tableName;
+        return String.format("SELECT * FROM %s", tableName);
     }
 
     private String buildSaveSQL(Class<?> entityClass, String tableName) {
         Map<String, String> columnNames = queryExecutor.getRequiredColumnNames(entityClass);
-        StringBuilder sqlQuery = new StringBuilder("INSERT INTO ").append(tableName).append(" (");
-        StringBuilder valuesBuilder = new StringBuilder(" VALUES (");
-
         columnNames.remove("id");
 
-        for (String columnName : columnNames.values()) {
-            sqlQuery.append(columnName).append(", ");
-            valuesBuilder.append("?, ");
-        }
+        String columns = String.join(", ", columnNames.values());
+        String placeholders = "?" + ", ?".repeat(columnNames.size() - 1);
 
-        sqlQuery.deleteCharAt(sqlQuery.length() - 2).append(")");
-        valuesBuilder.deleteCharAt(valuesBuilder.length() - 2).append(")");
-        sqlQuery.append(valuesBuilder);
-
-        return sqlQuery.toString();
+        return String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, columns, placeholders);
     }
 
-    private String buildUpdateSQL(Class<?> entityClass, String tableName) throws NoSuchFieldException {
+    private String buildUpdateSQL(Class<?> entityClass, String tableName) {
         Map<String, String> columnNames = queryExecutor.getRequiredColumnNames(entityClass);
-        StringBuilder sqlQuery = new StringBuilder("UPDATE ").append(tableName).append(" SET ");
+        String setClause = String.join(" = ?, ", columnNames.values()) + " = ?";
+        String idColumn = getIdColumn(entityClass);
 
-        for (String columnName : columnNames.values()) {
-            sqlQuery.append(columnName).append(" = ?, ");
-        }
-
-        sqlQuery.deleteCharAt(sqlQuery.length() - 2);
-
-        Field idField = entityClass.getDeclaredField("id");
-        idField.setAccessible(true);
-        CollumnName idName = idField.getAnnotation(CollumnName.class);
-        sqlQuery.append(" WHERE ").append(idName.value()).append(" = ?");
-
-        return sqlQuery.toString();
+        return String.format("UPDATE %s SET %s WHERE %s = ?", tableName, setClause, idColumn);
     }
 
-    private String buildDeleteSQL(Class<?> entityClass, String tableName) throws NoSuchFieldException {
-        Field idField = entityClass.getDeclaredField("id");
-        idField.setAccessible(true);
-        CollumnName idName = idField.getAnnotation(CollumnName.class);
-        return "DELETE FROM " + tableName + " WHERE " + idName.value() + " = ?";
+    private String buildDeleteSQL(Class<?> entityClass, String tableName) {
+        String idColumn = getIdColumn(entityClass);
+        return String.format("DELETE FROM %s WHERE %s = ?", tableName, idColumn);
     }
 
     /* OUTROS */
-    private List<Object> buildParamsList(T entity) throws IllegalAccessException {
+    private List<T> executeQuery(Class<T> entityClass, String sql, Integer id, CRUDOperation operation) {
+        try {
+            Optional<Integer> idOptional = Optional.ofNullable(id);
+            return queryExecutor.execute(entityClass, sql, null, operation, idOptional);
+        } catch (Exception e) {
+            logError("Erro ao executar consulta para " + getTableName(entityClass) + ": " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    private void executeUpdate(Class<?> entityClass, String sql, List<Object> params, CRUDOperation operation) {
+        try {
+            queryExecutor.execute(entityClass, sql, params.toArray(), operation, Optional.empty());
+        } catch (Exception e) {
+            logError("Erro ao executar atualização para " + getTableName(entityClass) + ": " + e.getMessage());
+        }
+    }
+
+    private List<Object> buildParamsList(T entity) {
         List<Object> params = new ArrayList<>();
         for (Field field : entity.getClass().getDeclaredFields()) {
             field.setAccessible(true);
-            if (field.isAnnotationPresent(CollumnName.class) && field.isAnnotationPresent(Required.class)) {
-                Object value = field.get(entity);
-                params.add(value);
+            try {
+                if (field.isAnnotationPresent(CollumnName.class) && field.isAnnotationPresent(Required.class)) {
+                    params.add(field.get(entity));
+                }
+            } catch (IllegalAccessException e) {
+                logError("Erro ao acessar valor do campo: " + e.getMessage());
             }
         }
         return params;
     }
 
     private String getTableName(Class<?> entityClass) {
-        if (entityClass.isAnnotationPresent(TableName.class)) {
-            TableName tableNameAnnotation = entityClass.getAnnotation(TableName.class);
-            return tableNameAnnotation.value();
-        } else {
-            return entityClass.getSimpleName().toLowerCase();
+        return Optional.ofNullable(entityClass.getAnnotation(TableName.class))
+                       .map(TableName::value)
+                       .orElseGet(() -> entityClass.getSimpleName().toLowerCase());
+    }
+
+    private String getIdColumn(Class<?> entityClass) {
+        try {
+            Field idField = entityClass.getDeclaredField("id");
+            CollumnName idAnnotation = idField.getAnnotation(CollumnName.class);
+            return idAnnotation.value();
+        } catch (NoSuchFieldException e) {
+            logError("Campo 'id' não encontrado na classe " + entityClass.getName() + ": " + e.getMessage());
+            return "id";
         }
     }
 }
