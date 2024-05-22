@@ -1,4 +1,4 @@
-package com.fiap.br.util.config;
+package com.fiap.br.util.interfaces;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
