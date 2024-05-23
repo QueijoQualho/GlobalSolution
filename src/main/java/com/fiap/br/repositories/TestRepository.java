@@ -8,5 +8,4 @@ public class TestRepository extends Repository<Test> {
     public TestRepository(QueryExecutor queryExecutor) {
         super(queryExecutor);
     }
-    
 }
