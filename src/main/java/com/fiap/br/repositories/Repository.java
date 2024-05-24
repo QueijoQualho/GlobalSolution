@@ -9,9 +9,10 @@ import java.util.Optional;
 import com.fiap.br.models.enums.CRUDOperation;
 import com.fiap.br.services.QueryExecutor;
 import com.fiap.br.util.annotations.CollumnName;
-import com.fiap.br.util.annotations.Required;
 import com.fiap.br.util.annotations.TableName;
 import com.fiap.br.util.interfaces.Loggable;
+
+import jakarta.validation.constraints.NotNull;
 
 public class Repository<T> implements Loggable<String> {
 
@@ -109,7 +110,7 @@ public class Repository<T> implements Loggable<String> {
         for (Field field : entity.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             try {
-                if (field.isAnnotationPresent(CollumnName.class) && field.isAnnotationPresent(Required.class)) {
+                if (field.isAnnotationPresent(CollumnName.class) && field.isAnnotationPresent(NotNull.class)) {
                     params.add(field.get(entity));
                 }
             } catch (IllegalAccessException e) {
