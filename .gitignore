@@ -36,6 +36,3 @@ build/
 
 ### Mac OS ###
 .DS_Store
-
-# Ignore database properties
-src/main/resources/database.properties

@@ -5,23 +5,25 @@ import com.fiap.br.util.annotations.TableName;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
+@Data
 @TableName("teste")
 public class Test {
     @CollumnName("id")
-    int id;
+    private int id;
 
     @CollumnName("nome")
     @NotNull(message = "O nome é obrigatório")
     @Size(min = 2, max = 50, message = "O nome deve ter entre 2 e 50 caracteres")
-    String nome;
+    private String nome;
 
     @CollumnName("valor")
     @NotNull(message = "O Valor é obrigatório")
-    Double valor;
+    private double valor;
 
     @CollumnName("descricao")
     @NotNull(message = "O descricao é obrigatório")
     @Size(min = 2, max = 255, message = "O nome deve ter entre 2 e 255 caracteres")
-    String descricao;
+    private String descricao;
 }

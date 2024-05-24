@@ -9,9 +9,10 @@ import java.util.Optional;
 import com.fiap.br.models.enums.CRUDOperation;
 import com.fiap.br.services.QueryExecutor;
 import com.fiap.br.util.annotations.CollumnName;
-import com.fiap.br.util.annotations.Required;
 import com.fiap.br.util.annotations.TableName;
 import com.fiap.br.util.interfaces.Loggable;
+
+import jakarta.validation.constraints.NotNull;
 
 public class Repository<T> implements Loggable<String> {
 
@@ -21,7 +22,6 @@ public class Repository<T> implements Loggable<String> {
         this.queryExecutor = queryExecutor;
     }
 
-    /* CRUD */
     public T findOne(Class<T> entityClass, int id) {
         String tableName = getTableName(entityClass);
         String sql = buildFindOneSQL(entityClass, tableName);
@@ -55,7 +55,6 @@ public class Repository<T> implements Loggable<String> {
         executeUpdate(entityClass, sql, List.of(id), CRUDOperation.DELETE);
     }
 
-    /* SQL QUERRYS */
     private String buildFindOneSQL(Class<?> entityClass, String tableName) {
         String idColumn = getIdColumn(entityClass);
         return String.format("SELECT * FROM %s WHERE %s = ?", tableName, idColumn);
@@ -88,7 +87,6 @@ public class Repository<T> implements Loggable<String> {
         return String.format("DELETE FROM %s WHERE %s = ?", tableName, idColumn);
     }
 
-    /* OUTROS */
     private List<T> executeQuery(Class<T> entityClass, String sql, Integer id, CRUDOperation operation) {
         try {
             Optional<Integer> idOptional = Optional.ofNullable(id);
@@ -112,7 +110,7 @@ public class Repository<T> implements Loggable<String> {
         for (Field field : entity.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             try {
-                if (field.isAnnotationPresent(CollumnName.class) && field.isAnnotationPresent(Required.class)) {
+                if (field.isAnnotationPresent(CollumnName.class) && field.isAnnotationPresent(NotNull.class)) {
                     params.add(field.get(entity));
                 }
             } catch (IllegalAccessException e) {
@@ -124,8 +122,8 @@ public class Repository<T> implements Loggable<String> {
 
     private String getTableName(Class<?> entityClass) {
         return Optional.ofNullable(entityClass.getAnnotation(TableName.class))
-                       .map(TableName::value)
-                       .orElseGet(() -> entityClass.getSimpleName().toLowerCase());
+                .map(TableName::value)
+                .orElseGet(() -> entityClass.getSimpleName().toLowerCase());
     }
 
     private String getIdColumn(Class<?> entityClass) {

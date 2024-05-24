@@ -17,8 +17,9 @@ import java.util.Optional;
 
 import com.fiap.br.models.enums.CRUDOperation;
 import com.fiap.br.util.annotations.CollumnName;
-import com.fiap.br.util.annotations.Required;
 import com.fiap.br.util.connection.DatabaseConnection;
+
+import jakarta.validation.constraints.NotNull;
 
 public class QueryExecutor {
 
@@ -139,7 +140,7 @@ public class QueryExecutor {
     private <T> Map<String, String> getColumnNames(Class<T> entityClass, boolean requiredOnly) {
         Map<String, String> columnNames = new LinkedHashMap<>();
         for (Field field : entityClass.getDeclaredFields()) {
-            if (field.isAnnotationPresent(CollumnName.class) && (!requiredOnly || field.isAnnotationPresent(Required.class))) {
+            if (field.isAnnotationPresent(CollumnName.class) && (!requiredOnly || field.isAnnotationPresent(NotNull.class))) {
                 CollumnName annotation = field.getAnnotation(CollumnName.class);
                 columnNames.put(field.getName(), annotation.value());
             }
