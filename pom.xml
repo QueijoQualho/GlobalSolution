@@ -62,6 +62,8 @@
             <artifactId>ojdbc10</artifactId>
             <version>19.22.0.0</version>
         </dependency>
+
+
         <!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
         <dependency>
             <groupId>javax.ws.rs</groupId>

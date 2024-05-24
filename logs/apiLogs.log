@@ -3,3 +3,40 @@
 2024-05-23 15:17:22 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
 2024-05-23 15:18:30 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
 2024-05-23 15:22:45 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 21:56:23 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 21:57:43 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:06:53 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:07:22 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:11:11 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:12:04 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:13:19 [grizzly-http-server-4] ERROR com.fiap.br.util.interfaces.Loggable - Erro ao executar atualização para teste: ORA-01400: não é possível inserir NULL em ("RM553912"."TESTE"."NOME")
+
+2024-05-23 22:16:52 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:18:37 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:18:46 [grizzly-http-server-0] ERROR com.fiap.br.util.interfaces.Loggable - Erro ao executar atualização para teste: ORA-01400: não é possível inserir NULL em ("RM553912"."TESTE"."NOME")
+
+2024-05-23 22:18:49 [grizzly-http-server-1] ERROR com.fiap.br.util.interfaces.Loggable - Erro ao executar atualização para teste: ORA-01400: não é possível inserir NULL em ("RM553912"."TESTE"."NOME")
+
+2024-05-23 22:20:54 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:20:57 [grizzly-http-server-0] ERROR com.fiap.br.util.interfaces.Loggable - Erro ao executar atualização para teste: ORA-01400: não é possível inserir NULL em ("RM553912"."TESTE"."NOME")
+
+2024-05-23 22:21:48 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:26:52 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:27:27 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:31:39 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:32:45 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:35:05 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:36:59 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:39:39 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:41:28 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 22:49:54 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 23:00:08 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 23:03:35 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 23:03:38 [grizzly-http-server-0] ERROR com.fiap.br.util.interfaces.Loggable - Erro ao executar atualização para teste: ORA-01400: não é possível inserir NULL em ("RM553912"."TESTE"."NOME")
+
+2024-05-23 23:03:52 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 23:16:54 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 23:17:15 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 23:19:50 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 23:23:23 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-23 23:24:39 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final

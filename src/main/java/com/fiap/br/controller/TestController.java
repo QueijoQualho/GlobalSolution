@@ -7,6 +7,7 @@ import com.fiap.br.repositories.TestRepository;
 import com.fiap.br.services.QueryExecutor;
 import com.fiap.br.services.TestService;
 
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -43,7 +44,7 @@ public class TestController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createTest(Test test) {
+    public Response createTest(@Valid Test test) {
         testeService.saveTest(test);
         return Response.status(Response.Status.CREATED).build();
     }
@@ -51,7 +52,7 @@ public class TestController {
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateTest(@PathParam("id") int id, Test test) {
+    public Response updateTest(@PathParam("id") int id, @Valid Test test) {
         testeService.updateTest(test, id);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
