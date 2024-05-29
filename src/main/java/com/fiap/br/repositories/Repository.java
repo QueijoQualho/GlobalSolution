@@ -9,6 +9,8 @@ import java.util.Optional;
 import com.fiap.br.models.enums.CRUDOperation;
 import com.fiap.br.services.QueryExecutor;
 import com.fiap.br.util.annotations.CollumnName;
+import com.fiap.br.util.annotations.JoinTable;
+import com.fiap.br.util.annotations.JoinedTableFk;
 import com.fiap.br.util.annotations.TableName;
 import com.fiap.br.util.interfaces.Loggable;
 
@@ -16,12 +18,13 @@ import jakarta.validation.constraints.NotNull;
 
 public class Repository<T> implements Loggable<String> {
 
-    private final QueryExecutor queryExecutor;
+    protected final QueryExecutor queryExecutor;
 
     public Repository(QueryExecutor queryExecutor) {
         this.queryExecutor = queryExecutor;
     }
 
+    /* CRUD */
     public T findOne(Class<T> entityClass, int id) {
         String tableName = getTableName(entityClass);
         String sql = buildFindOneSQL(entityClass, tableName);
@@ -30,7 +33,7 @@ public class Repository<T> implements Loggable<String> {
 
     public List<T> findAll(Class<T> entityClass) {
         String tableName = getTableName(entityClass);
-        String sql = buildFindAllSQL(tableName);
+        String sql = buildFindAllSQL(entityClass, tableName);
         return executeQuery(entityClass, sql, null, CRUDOperation.READ);
     }
 
@@ -55,16 +58,19 @@ public class Repository<T> implements Loggable<String> {
         executeUpdate(entityClass, sql, List.of(id), CRUDOperation.DELETE);
     }
 
+    /* QUERIES */
     private String buildFindOneSQL(Class<?> entityClass, String tableName) {
         String idColumn = getIdColumn(entityClass);
-        return String.format("SELECT * FROM %s WHERE %s = ?", tableName, idColumn);
+        String joinClause = hasJoinAnnotation(entityClass) ? buildJoinClause(entityClass) : "";
+        return String.format("SELECT * FROM %s %s WHERE %s.%s = ?", tableName, joinClause, tableName, idColumn);
     }
 
-    private String buildFindAllSQL(String tableName) {
-        return String.format("SELECT * FROM %s", tableName);
+    private String buildFindAllSQL(Class<?> entityClass, String tableName) {
+        String joinClause = hasJoinAnnotation(entityClass) ? buildJoinClause(entityClass) : "";
+        return String.format("SELECT * FROM %s %s", tableName, joinClause);
     }
 
-    private String buildSaveSQL(Class<?> entityClass, String tableName) {
+    protected String buildSaveSQL(Class<?> entityClass, String tableName) {
         Map<String, String> columnNames = queryExecutor.getRequiredColumnNames(entityClass);
         columnNames.remove("id");
 
@@ -87,6 +93,40 @@ public class Repository<T> implements Loggable<String> {
         return String.format("DELETE FROM %s WHERE %s = ?", tableName, idColumn);
     }
 
+    /* JOIN */
+    private String buildJoinClause(Class<?> entityClass) {
+        StringBuilder joinClause = new StringBuilder();
+        String entityTable = getTableName(entityClass);
+
+        for (Field field : entityClass.getDeclaredFields()) {
+            if (field.isAnnotationPresent(JoinTable.class)) {
+                Class<?> joinClass = field.getAnnotation(JoinTable.class).value();
+                String joinTable = getTableName(joinClass);
+                String joinColumn = getIdColumn(joinClass);
+                String foreignKeyColumn = getForeignKeyColumn(joinClass);
+
+                joinClause.append(String.format(
+                        "JOIN %s ON %s.%s = %s.%s ",
+                        joinTable,
+                        entityTable,
+                        foreignKeyColumn,
+                        joinTable,
+                        joinColumn));
+            }
+        }
+        return joinClause.toString();
+    }
+
+    private String getForeignKeyColumn(Class<?> joinClass) {
+        for (Field field : joinClass.getDeclaredFields()) {
+            if (field.isAnnotationPresent(JoinedTableFk.class)) {
+                return field.getAnnotation(CollumnName.class).value();
+            }
+        }
+        return null;
+    }
+
+    /* EXECUTE */
     private List<T> executeQuery(Class<T> entityClass, String sql, Integer id, CRUDOperation operation) {
         try {
             Optional<Integer> idOptional = Optional.ofNullable(id);
@@ -97,7 +137,7 @@ public class Repository<T> implements Loggable<String> {
         }
     }
 
-    private void executeUpdate(Class<?> entityClass, String sql, List<Object> params, CRUDOperation operation) {
+    protected void executeUpdate(Class<?> entityClass, String sql, List<Object> params, CRUDOperation operation) {
         try {
             queryExecutor.execute(entityClass, sql, params.toArray(), operation, Optional.empty());
         } catch (Exception e) {
@@ -105,7 +145,8 @@ public class Repository<T> implements Loggable<String> {
         }
     }
 
-    private List<Object> buildParamsList(T entity) {
+    /* PARAMS */
+    protected List<Object> buildParamsList(T entity) {
         List<Object> params = new ArrayList<>();
         for (Field field : entity.getClass().getDeclaredFields()) {
             field.setAccessible(true);
@@ -120,7 +161,8 @@ public class Repository<T> implements Loggable<String> {
         return params;
     }
 
-    private String getTableName(Class<?> entityClass) {
+    /* OUTROS */
+    protected String getTableName(Class<?> entityClass) {
         return Optional.ofNullable(entityClass.getAnnotation(TableName.class))
                 .map(TableName::value)
                 .orElseGet(() -> entityClass.getSimpleName().toLowerCase());
@@ -136,4 +178,14 @@ public class Repository<T> implements Loggable<String> {
             return "id";
         }
     }
+
+    private boolean hasJoinAnnotation(Class<?> entityClass) {
+        for (Field field : entityClass.getDeclaredFields()) {
+            if (field.isAnnotationPresent(JoinTable.class)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

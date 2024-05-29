@@ -42,7 +42,7 @@ public class QueryExecutor {
         PreparedStatement pstm = connection.prepareStatement(sql);
         if (id.isPresent()) {
             Integer idValue = id.get();
-            params = (params == null) ? new Object[]{idValue} : Arrays.copyOf(params, params.length + 1);
+            params = (params == null) ? new Object[] { idValue } : Arrays.copyOf(params, params.length + 1);
             params[params.length - 1] = idValue;
         }
         setParameters(pstm, params);
@@ -140,7 +140,8 @@ public class QueryExecutor {
     private <T> Map<String, String> getColumnNames(Class<T> entityClass, boolean requiredOnly) {
         Map<String, String> columnNames = new LinkedHashMap<>();
         for (Field field : entityClass.getDeclaredFields()) {
-            if (field.isAnnotationPresent(CollumnName.class) && (!requiredOnly || field.isAnnotationPresent(NotNull.class))) {
+            if (field.isAnnotationPresent(CollumnName.class)
+                    && (!requiredOnly || field.isAnnotationPresent(NotNull.class))) {
                 CollumnName annotation = field.getAnnotation(CollumnName.class);
                 columnNames.put(field.getName(), annotation.value());
             }
