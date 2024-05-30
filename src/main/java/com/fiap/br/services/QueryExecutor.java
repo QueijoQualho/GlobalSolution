@@ -1,3 +1,4 @@
+
 package com.fiap.br.services;
 
 import java.lang.reflect.Field;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 import com.fiap.br.models.enums.CRUDOperation;
 import com.fiap.br.util.annotations.CollumnName;
+import com.fiap.br.util.annotations.JoinTable;
 import com.fiap.br.util.connection.DatabaseConnection;
 
 import jakarta.validation.constraints.NotNull;
@@ -78,11 +80,13 @@ public class QueryExecutor {
         System.out.println("Linhas afetadas: " + affectedRows);
     }
 
+    @SuppressWarnings("unchecked")
     private <T> T mapResultSetToEntity(ResultSet rs, Class<T> entityClass) throws SQLException {
         T entity;
         try {
             entity = entityClass.getDeclaredConstructor().newInstance();
             Map<String, String> columnNames = getColumnNames(entityClass);
+
             for (Map.Entry<String, String> entry : columnNames.entrySet()) {
                 String fieldName = entry.getKey();
                 String columnName = entry.getValue();
@@ -90,6 +94,26 @@ public class QueryExecutor {
                 field.setAccessible(true);
                 Object value = rs.getObject(columnName);
                 setFieldValue(field, entity, value);
+            }
+
+            // Handle joins
+            for (Field field : entityClass.getDeclaredFields()) {
+                if (field.isAnnotationPresent(JoinTable.class)) {
+                    Class<?> joinClass = field.getAnnotation(JoinTable.class).value();
+                    Object joinEntity = mapResultSetToEntity(rs, joinClass);
+
+                    // Initialize the list if necessary
+                    if (List.class.isAssignableFrom(field.getType())) {
+                        field.setAccessible(true);
+                        if (field.get(entity) == null) {
+                            field.set(entity, new ArrayList<>());
+                        }
+                        ((List<Object>) field.get(entity)).add(joinEntity);
+                    } else {
+                        field.setAccessible(true);
+                        field.set(entity, joinEntity);
+                    }
+                }
             }
         } catch (Exception e) {
             throw new SQLException("Erro ao mapear ResultSet para a entidade " + entityClass.getName(), e);

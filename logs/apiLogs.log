@@ -54,3 +54,10 @@
 corretamente após um período de tempo ou a conexão estabelecida falhou
 porque o host conectado não respondeu
 2024-05-29 11:20:47 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 17:19:01 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 17:19:06 [grizzly-http-server-0] ERROR com.fiap.br.util.interfaces.Loggable - Erro ao executar consulta para T_GS_USUARIO: Erro ao mapear ResultSet para a entidade com.fiap.br.models.Usuario
+2024-05-30 17:20:44 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 17:28:29 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 17:30:29 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 17:35:59 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 17:36:05 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
