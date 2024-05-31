@@ -61,3 +61,40 @@ porque o host conectado não respondeu
 2024-05-30 17:30:29 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
 2024-05-30 17:35:59 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
 2024-05-30 17:36:05 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 18:29:47 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 21:59:22 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 21:59:30 [grizzly-http-server-0] ERROR com.fiap.br.util.interfaces.Loggable - Erro ao executar inserção para T_GS_USUARIO: Conversão inválida solicitada
+2024-05-30 21:59:30 [grizzly-http-server-0] ERROR com.fiap.br.util.interfaces.Loggable - Erro ao executar inserção para T_GS_Endereco: Conversão inválida solicitada
+2024-05-30 22:01:11 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:02:16 [grizzly-http-server-0] ERROR com.fiap.br.util.interfaces.Loggable - Erro ao executar inserção para T_GS_USUARIO: Conversão inválida solicitada
+2024-05-30 22:05:53 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:09:25 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:09:51 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:12:08 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:14:06 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:14:14 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:14:43 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:17:02 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:42:37 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:55:05 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:57:06 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:57:33 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:59:41 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 22:59:52 [grizzly-http-server-0] ERROR com.fiap.br.util.interfaces.Loggable - Erro ao encontrar usuário por e-mail: Erro ao mapear ResultSet para a entidade com.fiap.br.models.Usuario
+2024-05-30 23:02:44 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 23:04:06 [grizzly-http-server-1] ERROR com.fiap.br.util.interfaces.Loggable - Erro ao encontrar usuário por e-mail: Erro ao mapear ResultSet para a entidade com.fiap.br.models.Usuario
+2024-05-30 23:04:13 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 23:12:04 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 23:13:44 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 23:16:22 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 23:17:45 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 23:17:52 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 23:18:02 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 23:18:16 [grizzly-http-server-1] ERROR com.fiap.br.util.interfaces.Loggable - Erro ao encontrar usuário por e-mail: ORA-00905: palavra-chave não encontrada
+
+2024-05-30 23:18:37 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 23:19:50 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 23:24:59 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 23:27:23 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 23:28:08 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-05-30 23:28:38 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
