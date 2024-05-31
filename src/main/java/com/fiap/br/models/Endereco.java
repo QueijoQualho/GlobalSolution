@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-@TableName("T_GS_Endereco")
+@TableName("T_GSBH_endereco")
 public class Endereco {
     @CollumnName("id_endereco")
     int id;
@@ -54,6 +54,7 @@ public class Endereco {
     String siafi;
 
     @CollumnName("id_usuario")
+    @NotNull()
     @JoinedTableFk()
     int idUsuario;
 

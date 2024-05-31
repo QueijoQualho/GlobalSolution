@@ -1,4 +1,3 @@
-
 package com.fiap.br.services;
 
 import java.lang.reflect.Field;
@@ -38,6 +37,21 @@ public class QueryExecutor {
             }
         }
         return results;
+    }
+
+    public <T> int executeInsert(Class<T> entityClass, String sql, Object[] params, CRUDOperation operation) throws SQLException {
+        Map<String, String> columnNames = getColumnNames(entityClass);
+        try (PreparedStatement pstm = connection.prepareStatement(sql, new String[] {columnNames.get("id")})) {
+            setParameters(pstm, params);
+            pstm.executeUpdate();
+            try (ResultSet generatedKeys = pstm.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Falha ao obter o ID gerado.");
+                }
+            }
+        }
     }
 
     private PreparedStatement prepareStatement(String sql, Object[] params, Optional<Integer> id) throws SQLException {
@@ -101,7 +115,7 @@ public class QueryExecutor {
                 if (field.isAnnotationPresent(JoinTable.class)) {
                     Class<?> joinClass = field.getAnnotation(JoinTable.class).value();
                     Object joinEntity = mapResultSetToEntity(rs, joinClass);
-
+                    
                     // Initialize the list if necessary
                     if (List.class.isAssignableFrom(field.getType())) {
                         field.setAccessible(true);

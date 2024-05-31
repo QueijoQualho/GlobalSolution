@@ -9,8 +9,8 @@ public class UsuarioService {
 
     private UsuarioRepository usuarioRepository;
 
-    public UsuarioService(UsuarioRepository UsuarioRepository) {
-        this.usuarioRepository = UsuarioRepository;
+    public UsuarioService() {
+        this.usuarioRepository = new UsuarioRepository();
     }
 
     public Usuario findUserById(int id) {

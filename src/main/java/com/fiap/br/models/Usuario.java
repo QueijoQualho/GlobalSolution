@@ -15,7 +15,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Data
-@TableName("T_GS_USUARIO")
+@TableName("T_GSBH_usuarios")
 public class Usuario {
 
     @CollumnName("id_usuario")

@@ -3,8 +3,6 @@ package com.fiap.br.controller;
 import java.util.List;
 
 import com.fiap.br.models.Usuario;
-import com.fiap.br.repositories.UsuarioRepository;
-import com.fiap.br.services.QueryExecutor;
 import com.fiap.br.services.UsuarioService;
 
 import jakarta.validation.Valid;
@@ -24,7 +22,7 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     public UsuarioController() {
-        usuarioService = new UsuarioService(new UsuarioRepository(new QueryExecutor()));
+        usuarioService = new UsuarioService();
     }
 
     @GET

@@ -24,7 +24,9 @@ public class Repository<T> implements Loggable<String> {
         this.queryExecutor = queryExecutor;
     }
 
-    /* CRUD */
+    // ======================================
+    // = CRUD =
+    // ======================================
     public T findOne(Class<T> entityClass, int id) {
         String tableName = getTableName(entityClass);
         String sql = buildFindOneSQL(entityClass, tableName);
@@ -37,11 +39,11 @@ public class Repository<T> implements Loggable<String> {
         return executeQuery(entityClass, sql, null, CRUDOperation.READ);
     }
 
-    public void save(T entity) {
+    public int save(T entity) {
         String tableName = getTableName(entity.getClass());
         String sql = buildSaveSQL(entity.getClass(), tableName);
         List<Object> params = buildParamsList(entity);
-        executeUpdate(entity.getClass(), sql, params, CRUDOperation.CREATE);
+        return executeInsert(entity.getClass(), sql, params, CRUDOperation.CREATE);
     }
 
     public void update(T entity, int id) {
@@ -58,7 +60,9 @@ public class Repository<T> implements Loggable<String> {
         executeUpdate(entityClass, sql, List.of(id), CRUDOperation.DELETE);
     }
 
-    /* QUERIES */
+    // ======================================
+    // = QUERIES =
+    // ======================================
     private String buildFindOneSQL(Class<?> entityClass, String tableName) {
         String idColumn = getIdColumn(entityClass);
         String joinClause = hasJoinAnnotation(entityClass) ? buildJoinClause(entityClass) : "";
@@ -93,7 +97,9 @@ public class Repository<T> implements Loggable<String> {
         return String.format("DELETE FROM %s WHERE %s = ?", tableName, idColumn);
     }
 
-    /* JOIN */
+    // ======================================
+    // = JOIN =
+    // ======================================
     private String buildJoinClause(Class<?> entityClass) {
         StringBuilder joinClause = new StringBuilder();
         String entityTable = getTableName(entityClass);
@@ -126,7 +132,9 @@ public class Repository<T> implements Loggable<String> {
         return null;
     }
 
-    /* EXECUTE */
+    // ======================================
+    // = EXECUTE =
+    // ======================================
     private List<T> executeQuery(Class<T> entityClass, String sql, Integer id, CRUDOperation operation) {
         try {
             Optional<Integer> idOptional = Optional.ofNullable(id);
@@ -137,7 +145,16 @@ public class Repository<T> implements Loggable<String> {
         }
     }
 
-    protected void executeUpdate(Class<?> entityClass, String sql, List<Object> params, CRUDOperation operation) {
+    protected int executeInsert(Class<?> entityClass, String sql, List<Object> params, CRUDOperation operation) {
+        try {
+            return queryExecutor.executeInsert(entityClass, sql, params.toArray(), operation);
+        } catch (Exception e) {
+            logError("Erro ao executar inserção para " + getTableName(entityClass) + ": " + e.getMessage());
+            return -1;
+        }
+    }
+
+    private void executeUpdate(Class<?> entityClass, String sql, List<Object> params, CRUDOperation operation) {
         try {
             queryExecutor.execute(entityClass, sql, params.toArray(), operation, Optional.empty());
         } catch (Exception e) {
@@ -145,8 +162,10 @@ public class Repository<T> implements Loggable<String> {
         }
     }
 
-    /* PARAMS */
-    protected List<Object> buildParamsList(T entity) {
+    // ======================================
+    // = PARAMS =
+    // ======================================
+    private List<Object> buildParamsList(Object entity) {
         List<Object> params = new ArrayList<>();
         for (Field field : entity.getClass().getDeclaredFields()) {
             field.setAccessible(true);
@@ -161,8 +180,10 @@ public class Repository<T> implements Loggable<String> {
         return params;
     }
 
-    /* OUTROS */
-    protected String getTableName(Class<?> entityClass) {
+    // ======================================
+    // = OUTROS =
+    // ======================================
+    private String getTableName(Class<?> entityClass) {
         return Optional.ofNullable(entityClass.getAnnotation(TableName.class))
                 .map(TableName::value)
                 .orElseGet(() -> entityClass.getSimpleName().toLowerCase());
