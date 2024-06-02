@@ -1,4 +1,4 @@
-package com.fiap.br.util.providers;
+package com.fiap.br.util.validators;
 
 import java.util.ArrayList;
 import java.util.List;
