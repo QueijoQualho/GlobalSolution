@@ -8,7 +8,7 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-public class ViaCepClient {
+public class ViaCepService {
     private static final String BASE_URL = "https://viacep.com.br/ws/";
 
     public String getEnderecoByCep(String cep) {

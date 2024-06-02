@@ -16,7 +16,7 @@ import com.fiap.br.util.interfaces.Loggable;
 
 import jakarta.validation.constraints.NotNull;
 
-public class Repository<T> implements Loggable<String> {
+public abstract class Repository<T> implements Loggable<String> {
 
     protected final QueryExecutor queryExecutor;
 

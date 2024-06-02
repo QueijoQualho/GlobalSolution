@@ -4,14 +4,14 @@ import com.fiap.br.models.AuthDTO;
 import com.fiap.br.models.Usuario;
 
 public class AuthService {
-    private UsuarioService usuarioRepository;
+    private UsuarioService usuarioService;
 
     public AuthService() {
-        this.usuarioRepository = new UsuarioService();
+        this.usuarioService = new UsuarioService();
     }
 
     public Boolean login(AuthDTO authDto) {
-        Usuario user = usuarioRepository.findUserByEmail(authDto.getEmail());
+        Usuario user = usuarioService.findUserByEmail(authDto.getEmail());
 
         if (user == null) {
             return false;
@@ -25,6 +25,6 @@ public class AuthService {
     }
 
     public boolean signup(Usuario usuario) {
-        return usuarioRepository.saveUser(usuario);
+        return usuarioService.saveUser(usuario);
     }
 }

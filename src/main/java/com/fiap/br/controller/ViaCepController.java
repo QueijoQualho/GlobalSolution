@@ -1,7 +1,7 @@
 package com.fiap.br.controller;
 
 import com.fiap.br.models.ViaCepDTO;
-import com.fiap.br.services.ViaCepClient;
+import com.fiap.br.services.ViaCepService;
 
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -12,10 +12,10 @@ import jakarta.ws.rs.core.Response;
 
 @Path("viacep")
 public class ViaCepController {
-     private ViaCepClient viaCepClient;
+     private ViaCepService viaCepClient;
 
     public ViaCepController() {
-        this.viaCepClient = new ViaCepClient();
+        this.viaCepClient = new ViaCepService();
     }
 
     @POST
