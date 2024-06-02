@@ -11,14 +11,10 @@ CREATE TABLE T_GSBH_endereco (
     id_endereco INT GENERATED as IDENTITY primary key,
     cep VARCHAR(20) NOT NULL,
     logradouro VARCHAR(255) NOT NULL,
-    complemento VARCHAR(255) NOT NULL,
+    nr_endereco VARCHAR(50) not null,
     bairro VARCHAR(255) NOT NULL,
     localidade VARCHAR(255) NOT NULL,
     uf VARCHAR(2) NOT NULL,
-    ibge VARCHAR(10) NOT NULL,
-    gia VARCHAR(10) NOT NULL,
-    ddd VARCHAR(4) NOT NULL,
-    siafi VARCHAR(10) NOT NULL,
     id_usuario INT NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES T_GSBH_usuarios(id_usuario) ON DELETE CASCADE
 );

@@ -21,9 +21,9 @@ public class Endereco {
     @NotNull(message = "O logradouro é obrigatório")
     String logradouro;
 
-    @CollumnName("complemento")
-    @NotNull(message = "O complemento é obrigatório")
-    String complemento;
+    @CollumnName("nr_endereco")
+    @NotNull(message = "O numero é obrigatório")
+    String numero;
 
     @CollumnName("bairro")
     @NotNull(message = "O bairro é obrigatório")
@@ -36,22 +36,6 @@ public class Endereco {
     @CollumnName("uf")
     @NotNull(message = "O uf é obrigatório")
     String uf;
-
-    @CollumnName("ibge")
-    @NotNull(message = "O ibge é obrigatório")
-    String ibge;
-
-    @CollumnName("gia")
-    @NotNull(message = "O gia é obrigatório")
-    String gia;
-
-    @CollumnName("ddd")
-    @NotNull(message = "O ddd é obrigatório")
-    String ddd;
-
-    @CollumnName("siafi")
-    @NotNull(message = "O siafi é obrigatório")
-    String siafi;
 
     @CollumnName("id_usuario")
     @NotNull()
