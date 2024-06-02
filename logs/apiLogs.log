@@ -115,3 +115,18 @@ porque o host conectado não respondeu
 2024-06-01 21:34:23 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
 2024-06-01 21:47:47 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
 2024-06-01 23:20:58 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-06-02 00:17:03 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-06-02 00:24:36 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-06-02 00:25:57 [grizzly-http-server-4] INFO  com.fiap.br.util.interfaces.Loggable - Ta entrando
+2024-06-02 00:28:11 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-06-02 00:29:02 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-06-02 00:29:51 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-06-02 00:29:52 [grizzly-http-server-3] INFO  com.fiap.br.util.interfaces.Loggable - Ta entrando
+2024-06-02 00:30:56 [grizzly-http-server-6] INFO  com.fiap.br.util.interfaces.Loggable - Ta entrando
+2024-06-02 00:31:36 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-06-02 00:38:33 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-06-02 03:38:25 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-06-02 03:38:54 [grizzly-http-server-1] ERROR com.fiap.br.util.interfaces.Loggable - Erro ao executar consulta para T_GSBH_usuarios: Erro ao mapear ResultSet para a entidade com.fiap.br.models.Usuario
+2024-06-02 03:39:51 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-06-02 03:43:22 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-06-02 03:44:36 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final

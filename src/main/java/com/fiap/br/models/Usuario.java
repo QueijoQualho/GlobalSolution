@@ -2,6 +2,7 @@ package com.fiap.br.models;
 
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,9 @@ public class Usuario {
     @CollumnName("telefone")
     @NotNull(message = "O telefone é obrigatório")
     private String telefone;
+
+    @CollumnName("created_at")
+    private LocalDate createdAt;
 
     @Valid
     @JoinTable(value = Endereco.class)
