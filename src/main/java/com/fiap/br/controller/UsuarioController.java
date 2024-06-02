@@ -43,7 +43,12 @@ public class UsuarioController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUsuario(@Valid Usuario usuario) {
-        usuarioService.saveUser(usuario);
+        Boolean emailExist = usuarioService.saveUser(usuario);
+
+        if (!emailExist) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Já existe um usuario com esse email").build();
+        }
+
         return Response.status(Response.Status.CREATED).build();
     }
 

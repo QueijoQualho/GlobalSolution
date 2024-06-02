@@ -25,8 +25,16 @@ public class UsuarioService {
         return usuarioRepository.findAll(Usuario.class);
     }
 
-    public void saveUser(Usuario usuario) {
+    public boolean saveUser(Usuario usuario) {
+
+        Usuario user = findUserByEmail(usuario.getEmail());
+
+        if(user != null){
+            return false;
+        }
+
         usuarioRepository.save(usuario);
+        return true;
     }
 
     public void updateUser(Usuario usuario, int id) {

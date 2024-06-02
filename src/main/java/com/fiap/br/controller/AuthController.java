@@ -39,7 +39,13 @@ public class AuthController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response signup(@Valid Usuario usuario) {
-        authService.signup(usuario);
+
+        Boolean emailExist = authService.signup(usuario);
+
+        if (!emailExist) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Já existe um usuario com esse email").build();
+        }
+        
         return Response.status(Response.Status.CREATED).build();
     }
 }

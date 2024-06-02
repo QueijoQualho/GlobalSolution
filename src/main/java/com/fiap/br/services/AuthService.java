@@ -24,7 +24,7 @@ public class AuthService {
         return true;
     }
 
-    public void signup(Usuario usuario) {
-        usuarioRepository.saveUser(usuario);
+    public boolean signup(Usuario usuario) {
+        return usuarioRepository.saveUser(usuario);
     }
 }
