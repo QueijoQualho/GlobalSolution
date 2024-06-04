@@ -25,6 +25,10 @@ public class AuthController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(@Valid AuthDTO authDTO) {
+        if (!authService.verifyRecaptcha(authDTO.getRecaptchaToken())) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("reCAPTCHA verification failed").build();
+        }
+
         Boolean logado = authService.login(authDTO);
 
         if (!logado) {
@@ -39,7 +43,6 @@ public class AuthController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response signup(@Valid Usuario usuario) {
-
         Boolean emailExist = authService.signup(usuario);
 
         if (!emailExist) {
